@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  rest:
+    container_name: grpc-vs-rest-go-rest
+    build:
+      context: ./
+      dockerfile: ./rest/dockerfile
+  grpc:
+    container_name: grpc-vs-rest-go-grpc
+    build:
+      context: ./
+      dockerfile: ./grpc/dockerfile

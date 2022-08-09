@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "/message";
+
+message Message {
+    int32 Value1 = 1;
+    int32 Value2 = 2;
+    int32 Value3 = 3;
+    int32 Value4 = 4;
+    int32 Value5 = 5;
+}
+
+service MessageService {
+    rpc SendMessage(Message) returns (Message) {}
+}
