@@ -8,32 +8,46 @@ Its operation is very simple and can be done entirely using the make commands of
 
 Run the application:
 
-`make run`
+```
+make run
+```
 
 Start the application:
 
-`make start`
+```
+make start
+```
 
 Stop the application:
 
-`make stop`
+```
+make stop
+```
 
 View the application logs:
 
-`make logs`
+```
+make logs
+```
 
 Test via REST with a count of requests:
 
 (Replace NUMBER with the number of requests to be sent during the test.)
 
-`make test-rest count=NUMBER`
+```
+make test-rest count=NUMBER
+```
 
 Test via gRPC with a count of requests:
 
 (Replace NUMBER with the number of requests to be sent during the test.)
 
-`make test-grpc count=NUMBER`
+```
+make test-grpc count=NUMBER
+```
 
 Generate Proto File (gRPC):
 
-`make generate-proto`
+```
+make generate-proto
+```
