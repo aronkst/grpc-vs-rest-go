@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine AS build
 
 WORKDIR /usr/src/app
 
@@ -21,6 +21,11 @@ COPY grpc/server/*.go grpc/server
 RUN go build -o grpc-client grpc/client/main.go
 RUN go build -o grpc-server grpc/server/main.go
 
-EXPOSE 8080
+FROM alpine:3.16
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/grpc-client grpc-client
+COPY --from=build /usr/src/app/grpc-server grpc-server
 
 CMD [ "./grpc-server" ]
