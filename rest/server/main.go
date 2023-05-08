@@ -3,21 +3,25 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
 	"github.com/aronkst/grpc-vs-rest-go/data"
 )
 
-func Api(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
+func API(writer http.ResponseWriter, request *http.Request) {
+	body, err := io.ReadAll(request.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	data := data.Data{}
-	json.Unmarshal(body, &data)
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Printf("data (REST Server): %v\n", data)
 
@@ -26,14 +30,19 @@ func Api(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(dataBody)
+	writer.WriteHeader(http.StatusOK)
+	writer.Header().Set("Content-Type", "application/json")
+	_, err = writer.Write(dataBody)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
-	http.HandleFunc("/", Api)
+	http.HandleFunc("/", API)
 	err := http.ListenAndServe(":8080", nil)
+
 	if err != nil {
 		log.Fatal(err)
 	}

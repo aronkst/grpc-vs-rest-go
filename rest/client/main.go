@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -46,13 +46,17 @@ func main() {
 		}
 		defer resp.Body.Close()
 
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		data := data.Data{}
-		json.Unmarshal(body, &data)
+		err = json.Unmarshal(body, &data)
+
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		fmt.Printf("data (REST Client): %v, i: %d\n", data, i)
 	}
